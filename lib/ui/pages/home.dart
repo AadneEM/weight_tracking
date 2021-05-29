@@ -16,7 +16,9 @@ class _HomePageState extends State<HomePage> {
   Widget getCurrentTab() {
     switch (_selectedIndex) {
       case 0:
-        return WeightEntruRegister();
+        return WeightEntruRegister(
+          () {setState(() {});}
+        );
       case 1: 
         return StatisticsPage();
       default:
