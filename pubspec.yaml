@@ -17,6 +17,7 @@ dev_dependencies:
     sdk: flutter
   get: ^4.1.4
   uuid: ^3.0.4
+  intl: ^0.17.0
 
 flutter:
   uses-material-design: true
