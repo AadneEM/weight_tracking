@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:weight_tracking/ui/pages/statistics.dart';
-import 'package:weight_tracking/ui/pages/weight_entry_register.dart';
+import 'package:get/get.dart';
+
+import 'statistics.dart';
+import 'upsert_weight_entry.dart';
+import 'weight_entry_register.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -30,6 +33,14 @@ class _HomePageState extends State<HomePage> {
         title: Text('Weight tracker'),
       ),
       body: getCurrentTab(),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
+        onPressed: () async {
+          await Get.to(UpsertWeightEntry());
+
+          setState(() {});
+        },
+      ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
         onTap: (int index) {

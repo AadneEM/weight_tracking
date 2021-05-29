@@ -1,24 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:weight_tracking/models/weight_entry.dart';
-import 'package:weight_tracking/ui/widgets/weight_entry_list_item.dart';
+import 'package:get_storage/get_storage.dart';
+
+import '../../constants.dart';
+import '../../models/weight_entry.dart';
+import '../widgets/weight_entry_list_item.dart';
 
 class WeightEntruRegister extends StatelessWidget {
   List<WeightEntry> getData() {
-    return [
-      WeightEntry(
-        date: DateTime.parse('2021-05-27'),
-        weight: 87.2,
-        cheatDay: true,
-      ),
-      WeightEntry(
-        date: DateTime.parse('2021-05-28'),
-        weight: 87.7,
-      ),
-      WeightEntry(
-        date: DateTime.parse('2021-05-29'),
-        weight: 87.6,
-      ),
-    ];
+    final box = GetStorage();
+    List<WeightEntry> entries = box.read<List<dynamic>>(kWeightEntriesListKey)
+        ?.map((e) {
+          if (e is WeightEntry) return e; 
+          return WeightEntry.fromJson(e);
+        })
+        .toList()
+      ?? [];
+    return entries;
   }
 
   @override

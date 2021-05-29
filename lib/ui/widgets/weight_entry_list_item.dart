@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:weight_tracking/models/weight_entry.dart';
 import 'package:intl/intl.dart';
+
+import '../../models/weight_entry.dart';
 
 class WeightEntryListItem extends StatelessWidget {
   final WeightEntry weightEntry;

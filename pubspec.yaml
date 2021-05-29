@@ -16,8 +16,9 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   get: ^4.1.4
-  uuid: ^3.0.4
+  get_storage: ^2.0.2
   intl: ^0.17.0
+  uuid: ^3.0.4
 
 flutter:
   uses-material-design: true

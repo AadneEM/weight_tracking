@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:weight_tracking/ui/pages/home.dart';
+import 'package:get_storage/get_storage.dart';
 
-void main() {
+import 'ui/pages/home.dart';
+
+void main() async {
+  await GetStorage.init();
   runApp(MyApp());
 }
 
