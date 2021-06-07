@@ -20,7 +20,7 @@ class WeightEntruRegister extends StatelessWidget {
         })
         .toList()
       ?? [];
-    return entries;
+    return entries..sort((a, b) => b.date.compareTo(a.date));
   }
 
   void deleteEntry(WeightEntry entry) {
@@ -35,42 +35,51 @@ class WeightEntruRegister extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final data = getData();
+    return StatefulBuilder(
+      builder: (context, setState) {
+        final data = getData();
 
-    return ListView.separated(
-      itemCount: data.length,
-      separatorBuilder: (ctx, i) => Divider(height: 2,),
-      itemBuilder: (ctx, i) => Dismissible(
-        key: Key('dismissible-${data[i].id}'),
-        child: WeightEntryListItem(data[i]),
-        direction: DismissDirection.endToStart,
-        onDismissed: (direction) => deleteEntry(data[i]),
-        background: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          color: Theme.of(context).errorColor,
-          child: Align(
-            alignment: Alignment.centerRight,
-            child: Icon(Icons.delete_forever),
+        return RefreshIndicator(
+          onRefresh: () async {
+            setState(() {});
+          },
+          child: ListView.separated(
+            itemCount: data.length,
+            separatorBuilder: (ctx, i) => Divider(height: 2,),
+            itemBuilder: (ctx, i) => Dismissible(
+              key: Key('dismissible-${data[i].id}'),
+              child: WeightEntryListItem(data[i]),
+              direction: DismissDirection.endToStart,
+              onDismissed: (direction) => deleteEntry(data[i]),
+              background: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                color: Theme.of(context).errorColor,
+                child: Align(
+                  alignment: Alignment.centerRight,
+                  child: Icon(Icons.delete_forever),
+                ),
+              ),
+              confirmDismiss: (direction) async {
+                bool? confirm = await Get.dialog<bool>(AlertDialog(
+                  title: Text('Really delete?'),
+                  actions: [
+                    TextButton(
+                      onPressed: () => Get.back(result: false),
+                      child: Text('Cancle'),
+                    ),
+                    TextButton(
+                      onPressed: () => Get.back(result: true),
+                      child: Text('Confirm'),
+                    ),
+                  ],
+                ));
+
+                return confirm ?? false;
+              },
+            ),
           ),
-        ),
-        confirmDismiss: (direction) async {
-          bool? confirm = await Get.dialog<bool>(AlertDialog(
-            title: Text('Really delete?'),
-            actions: [
-              TextButton(
-                onPressed: () => Get.back(result: false),
-                child: Text('Cancle'),
-              ),
-              TextButton(
-                onPressed: () => Get.back(result: true),
-                child: Text('Confirm'),
-              ),
-            ],
-          ));
-
-          return confirm ?? false;
-        },
-      ),
+        );
+      }
     );
   }
 }
