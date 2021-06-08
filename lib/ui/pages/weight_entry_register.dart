@@ -48,7 +48,7 @@ class WeightEntruRegister extends StatelessWidget {
             separatorBuilder: (ctx, i) => Divider(height: 2,),
             itemBuilder: (ctx, i) => Dismissible(
               key: Key('dismissible-${data[i].id}'),
-              child: WeightEntryListItem(data[i]),
+              child: WeightEntryListItem(data[i], i < data.length - 1 ? data[i+1] : null),
               direction: DismissDirection.endToStart,
               onDismissed: (direction) => deleteEntry(data[i]),
               background: Container(
