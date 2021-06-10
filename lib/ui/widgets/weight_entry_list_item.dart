@@ -24,6 +24,9 @@ class WeightEntryListItem extends StatelessWidget {
     final format = DateFormat('yyyy-MM-dd');
 
     final weightDifference = ((weightEntry.weight - (previousEntry?.weight ?? 0)) * 10).toInt() / 10;
+    var differenceColor = Colors.lightBlue[400];
+    if (weightDifference.isNegative) differenceColor = Colors.green[300];
+    else if (weightDifference > 0) differenceColor = Colors.red[300];
 
     return Padding(
       padding: const EdgeInsets.all(16.0),
@@ -74,9 +77,9 @@ class WeightEntryListItem extends StatelessWidget {
                   weightDifference.toString(),
                   style: TextStyle(
                     fontSize: 21,
-                    color: weightDifference.isNegative ? Colors.lightBlue[400] : Colors.red[300],
+                    color: differenceColor,
                   ),
-                ) : Text('N/A'),
+                ) : Text('N/A', style: TextStyle(color: Colors.grey[400])),
               ],
             ),
           ),
