@@ -10,13 +10,11 @@ class StateController extends GetxController {
 
   StateController() {
     final box = GetStorage();
-    List<WeightEntry> storedEntries = (box.read<List<dynamic>>(kWeightEntriesListKey)
-        ?.map((e) {
-          if (e is WeightEntry) return e; 
+    List<WeightEntry> storedEntries = (box.read<List<dynamic>>(kWeightEntriesListKey)?.map((e) {
+          if (e is WeightEntry) return e;
           return WeightEntry.fromJson(e);
-        })
-        .toList()
-      ?? [])
+        }).toList() ??
+        [])
       ..sort((a, b) => b.date.compareTo(a.date));
     entries.value = storedEntries;
   }

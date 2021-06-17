@@ -40,7 +40,7 @@ class WeightEntry {
 
   Map<String, dynamic> toJson() {
     final data = <String, dynamic>{};
-    
+
     data['id'] = id;
     data['date'] = date.toIso8601String();
     data['weight'] = weight;

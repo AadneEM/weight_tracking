@@ -24,7 +24,7 @@ class _AddEntryFabCardState extends State<AddEntryFabCard> {
   late double _selectedWeight;
 
   @override
-  void initState() { 
+  void initState() {
     super.initState();
     _setInitialData();
   }
@@ -76,25 +76,25 @@ class _AddEntryFabCardState extends State<AddEntryFabCard> {
     return SizedBox(
       width: cardWidth / 3,
       child: TextField(
-          controller: _dateController,
-          readOnly: true,
-          decoration: InputDecoration(
-            labelText: 'Date',
-          ),
-          onTap: () async {
-            DateTime? date = await showDatePicker(
-              context: context,
-              initialDate: _selectedDate,
-              firstDate: DateTime(1995),
-              lastDate: DateTime(2022),
-            );
-            if (date != null) {
-              setState(() {
-                _selectedDate = date;
-                _dateController.text = format.format(date);
-              });
-            }
-          },
+        controller: _dateController,
+        readOnly: true,
+        decoration: InputDecoration(
+          labelText: 'Date',
+        ),
+        onTap: () async {
+          DateTime? date = await showDatePicker(
+            context: context,
+            initialDate: _selectedDate,
+            firstDate: DateTime(1995),
+            lastDate: DateTime(2022),
+          );
+          if (date != null) {
+            setState(() {
+              _selectedDate = date;
+              _dateController.text = format.format(date);
+            });
+          }
+        },
       ),
     );
   }
@@ -110,7 +110,12 @@ class _AddEntryFabCardState extends State<AddEntryFabCard> {
         itemExtent: 69,
         selectionOverlay: DecoratedBox(
           decoration: BoxDecoration(
-            border: Border.symmetric(horizontal: BorderSide(width: 1, color: Colors.blueGrey[200]!))
+            border: Border.symmetric(
+              horizontal: BorderSide(
+                width: 1,
+                color: Colors.blueGrey[200]!,
+              ),
+            ),
           ),
         ),
         onSelectedItemChanged: (index) {
@@ -145,13 +150,12 @@ class _AddEntryFabCardState extends State<AddEntryFabCard> {
               Column(
                 children: [
                   ElevatedButton(
-                    onPressed: () => _save(), 
+                    onPressed: () => _save(),
                     child: Text('Save'),
                   ),
                   ElevatedButton(
-                    onPressed: () => _cancle(), 
+                    onPressed: () => _cancle(),
                     child: Text('Cancle'),
-
                     style: ElevatedButton.styleFrom(
                       primary: Colors.red,
                       onPrimary: Colors.white,
@@ -168,22 +172,17 @@ class _AddEntryFabCardState extends State<AddEntryFabCard> {
 
   @override
   Widget build(BuildContext context) {
-    double w = _cardIsOpen ? cardWidth  : 56;
+    double w = _cardIsOpen ? cardWidth : 56;
     double h = _cardIsOpen ? cardHeight : 56;
 
     return AnimatedContainer(
       curve: Curves.ease,
-      constraints: BoxConstraints(
-        minWidth: w,   maxWidth: w,
-        minHeight: h,  maxHeight: h,
-      ),
+      constraints: BoxConstraints(minWidth: w, maxWidth: w, minHeight: h, maxHeight: h),
       duration: Duration(milliseconds: 300),
       decoration: BoxDecoration(
         color: _cardIsOpen ? Colors.blueGrey[50] : Colors.blue,
         boxShadow: kElevationToShadow[1],
-        borderRadius: _cardIsOpen
-            ? BorderRadius.all(Radius.circular(0.0))
-            : BorderRadius.all(Radius.circular(50)),
+        borderRadius: BorderRadius.all(Radius.circular(_cardIsOpen ? 0.0 : 50.0)),
       ),
       child: AnimatedSwitcher(
         duration: Duration(milliseconds: 200),

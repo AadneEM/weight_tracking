@@ -22,10 +22,10 @@ class WeightEntruRegister extends StatelessWidget {
           },
           child: ListView.separated(
             itemCount: data.length,
-            separatorBuilder: (ctx, i) => Divider(height: 2,),
+            separatorBuilder: (ctx, i) => Divider(height: 2),
             itemBuilder: (ctx, i) => Dismissible(
               key: Key('dismissible-${data[i].id}'),
-              child: WeightEntryListItem(data[i], i < data.length - 1 ? data[i+1] : null),
+              child: WeightEntryListItem(data[i], i < data.length - 1 ? data[i + 1] : null),
               direction: DismissDirection.endToStart,
               onDismissed: (direction) => controller.removeEntry(data[i]),
               background: Container(
@@ -56,7 +56,7 @@ class WeightEntruRegister extends StatelessWidget {
             ),
           ),
         );
-      }
+      },
     );
   }
 }

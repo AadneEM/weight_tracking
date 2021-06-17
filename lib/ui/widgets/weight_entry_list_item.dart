@@ -26,7 +26,7 @@ class WeightEntryListItem extends StatelessWidget {
     final weightDifference = ((weightEntry.weight - (previousEntry?.weight ?? 0)) * 10).round() / 10;
     var differenceColor = Colors.lightBlue[400];
     if (weightDifference.isNegative) differenceColor = Colors.green[300];
-    else if (weightDifference > 0) differenceColor = Colors.red[300];
+    if (weightDifference > 0) differenceColor = Colors.red[300];
 
     return Padding(
       padding: const EdgeInsets.all(16.0),
@@ -40,9 +40,7 @@ class WeightEntryListItem extends StatelessWidget {
               children: [
                 Text(
                   format.format(weightEntry.date),
-                  style: TextStyle(
-                    fontWeight: FontWeight.w300
-                  ),
+                  style: TextStyle(fontWeight: FontWeight.w300),
                 ),
                 Text(weekDays[weightEntry.date.weekday - 1]),
               ],
@@ -73,13 +71,15 @@ class WeightEntryListItem extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                previousEntry != null ? Text(
-                  weightDifference.toString(),
-                  style: TextStyle(
-                    fontSize: 21,
-                    color: differenceColor,
-                  ),
-                ) : Text('N/A', style: TextStyle(color: Colors.grey[400])),
+                previousEntry != null
+                    ? Text(
+                        weightDifference.toString(),
+                        style: TextStyle(
+                          fontSize: 21,
+                          color: differenceColor,
+                        ),
+                      )
+                    : Text('N/A', style: TextStyle(color: Colors.grey[400])),
               ],
             ),
           ),
