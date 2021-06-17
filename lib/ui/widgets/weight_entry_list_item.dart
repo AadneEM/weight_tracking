@@ -23,7 +23,7 @@ class WeightEntryListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final format = DateFormat('yyyy-MM-dd');
 
-    final weightDifference = ((weightEntry.weight - (previousEntry?.weight ?? 0)) * 10).toInt() / 10;
+    final weightDifference = ((weightEntry.weight - (previousEntry?.weight ?? 0)) * 10).round() / 10;
     var differenceColor = Colors.lightBlue[400];
     if (weightDifference.isNegative) differenceColor = Colors.green[300];
     else if (weightDifference > 0) differenceColor = Colors.red[300];

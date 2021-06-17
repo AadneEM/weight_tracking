@@ -2,8 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import 'package:get_storage/get_storage.dart';
-import 'package:weight_tracking/constants.dart';
+import 'package:get/get.dart';
+import 'package:weight_tracking/controllers/state_controller.dart';
 import 'package:weight_tracking/models/weight_entry.dart';
 
 class AddEntryFabCard extends StatefulWidget {
@@ -26,48 +26,39 @@ class _AddEntryFabCardState extends State<AddEntryFabCard> {
   @override
   void initState() { 
     super.initState();
-    _setInitialWeight();
-    _dateController = TextEditingController(text: format.format(_selectedDate));
+    _setInitialData();
   }
 
-  void _setInitialWeight() {
-    final box = GetStorage();
-    WeightEntry? previousEntry;
-    final previousWeightEntry = box.read(kPreviousWeightEntry);
-    if (previousWeightEntry is WeightEntry) previousEntry = previousWeightEntry;
-    else if (previousWeightEntry != null) previousEntry = WeightEntry.fromJson(previousWeightEntry);
+  void _setInitialData() {
+    DateTime _selectedDate = DateTime.now();
+    _dateController = TextEditingController(text: format.format(_selectedDate));
+
+    var previousEntry = Get.find<StateController>().latestEntry;
 
     _initialWeigth = previousEntry?.weight ?? 85;
     _selectedWeight = previousEntry?.weight ?? 85;
   }
 
   void _save() {
-    final box = GetStorage();
-
-    List<WeightEntry> entries = box.read<List<dynamic>>(kWeightEntriesListKey)
-          ?.map((e) {
-            if (e is WeightEntry) return e; 
-            return WeightEntry.fromJson(e);
-          })
-          .toList()
-        ?? [];
-    
-    WeightEntry? previousEntry;
-    final previousWeightEntry = box.read(kPreviousWeightEntry);
-    if (previousWeightEntry is WeightEntry) previousEntry = previousWeightEntry;
-    else if (previousWeightEntry != null) previousEntry = WeightEntry.fromJson(previousWeightEntry);
-
     final newEntry = WeightEntry(
       date: _selectedDate,
       weight: _selectedWeight,
     );
 
-    entries.add(newEntry);
+    Get.find<StateController>().addEntry(newEntry);
 
-    box.write(kWeightEntriesListKey, entries);
-    if (previousEntry == null || newEntry.date.isAfter(previousEntry.date)) {
-      box.write(kPreviousWeightEntry, newEntry);
-    }
+    _setInitialData();
+
+    setState(() {
+      _cardIsOpen = false;
+    });
+  }
+
+  void _cancle() {
+    _setInitialData();
+    setState(() {
+      _cardIsOpen = false;
+    });
   }
 
   Widget _renderFab() {
@@ -154,20 +145,11 @@ class _AddEntryFabCardState extends State<AddEntryFabCard> {
               Column(
                 children: [
                   ElevatedButton(
-                    onPressed: () {
-                      _save();
-                      setState(() {
-                        _cardIsOpen = false;
-                      });
-                    }, 
+                    onPressed: () => _save(), 
                     child: Text('Save'),
                   ),
                   ElevatedButton(
-                    onPressed: () {
-                      setState(() {
-                        _cardIsOpen = false;
-                      });
-                    }, 
+                    onPressed: () => _cancle(), 
                     child: Text('Cancle'),
 
                     style: ElevatedButton.styleFrom(

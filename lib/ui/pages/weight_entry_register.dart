@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
+import 'package:weight_tracking/controllers/state_controller.dart';
 
-import '../../constants.dart';
-import '../../models/weight_entry.dart';
 import '../widgets/weight_entry_list_item.dart';
 
 class WeightEntruRegister extends StatelessWidget {
@@ -11,37 +9,16 @@ class WeightEntruRegister extends StatelessWidget {
 
   WeightEntruRegister([this.onEndryDeleted]);
 
-  List<WeightEntry> getData() {
-    final box = GetStorage();
-    List<WeightEntry> entries = box.read<List<dynamic>>(kWeightEntriesListKey)
-        ?.map((e) {
-          if (e is WeightEntry) return e; 
-          return WeightEntry.fromJson(e);
-        })
-        .toList()
-      ?? [];
-    return entries..sort((a, b) => b.date.compareTo(a.date));
-  }
-
-  void deleteEntry(WeightEntry entry) {
-    final box = GetStorage();
-    List<WeightEntry> entries = getData();
-
-    entries.remove(entry);
-    box.write(kWeightEntriesListKey, entries);
-
-    if (onEndryDeleted != null) onEndryDeleted!();
-  }
-
   @override
   Widget build(BuildContext context) {
-    return StatefulBuilder(
-      builder: (context, setState) {
-        final data = getData();
+    return GetBuilder(
+      init: Get.find<StateController>(),
+      builder: (StateController controller) {
+        final data = controller.entries;
 
         return RefreshIndicator(
           onRefresh: () async {
-            setState(() {});
+            controller.update();
           },
           child: ListView.separated(
             itemCount: data.length,
@@ -50,7 +27,7 @@ class WeightEntruRegister extends StatelessWidget {
               key: Key('dismissible-${data[i].id}'),
               child: WeightEntryListItem(data[i], i < data.length - 1 ? data[i+1] : null),
               direction: DismissDirection.endToStart,
-              onDismissed: (direction) => deleteEntry(data[i]),
+              onDismissed: (direction) => controller.removeEntry(data[i]),
               background: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 color: Theme.of(context).errorColor,
