@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:weight_tracking/controllers/state_controller.dart';
+import 'package:weight_tracking/models/weight_entry.dart';
 
 import '../widgets/weight_entry_list_item.dart';
 
@@ -25,7 +26,17 @@ class WeightEntruRegister extends StatelessWidget {
             separatorBuilder: (ctx, i) => Divider(height: 2),
             itemBuilder: (ctx, i) => Dismissible(
               key: Key('dismissible-${data[i].id}'),
-              child: WeightEntryListItem(data[i], i < data.length - 1 ? data[i + 1] : null),
+              child: WeightEntryListItem(
+                data[i],
+                previousEntry: data.cast<WeightEntry?>().firstWhere(
+                      (entry) => entry?.sameDateAs(data[i].date.add(Duration(days: -1))) ?? false,
+                      orElse: () => null,
+                    ),
+                lastWeekEntry: data.cast<WeightEntry?>().firstWhere(
+                      (entry) => entry?.sameDateAs(data[i].date.add(Duration(days: -7))) ?? false,
+                      orElse: () => null,
+                    ),
+              ),
               direction: DismissDirection.endToStart,
               onDismissed: (direction) => controller.removeEntry(data[i]),
               background: Container(

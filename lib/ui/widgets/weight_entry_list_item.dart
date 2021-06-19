@@ -16,17 +16,30 @@ List<String> weekDays = [
 class WeightEntryListItem extends StatelessWidget {
   final WeightEntry weightEntry;
   final WeightEntry? previousEntry;
+  final WeightEntry? lastWeekEntry;
 
-  WeightEntryListItem(this.weightEntry, [this.previousEntry]);
+  WeightEntryListItem(
+    this.weightEntry, {
+    this.previousEntry,
+    this.lastWeekEntry,
+  });
+
+  Color getWeightDifference(difference) {
+    var differenceColor = Colors.lightBlue[400];
+    if (difference.isNegative) differenceColor = Colors.green[300];
+    if (difference > 0) differenceColor = Colors.red[300];
+    return differenceColor!;
+  }
 
   @override
   Widget build(BuildContext context) {
     final format = DateFormat('yyyy-MM-dd');
 
-    final weightDifference = ((weightEntry.weight - (previousEntry?.weight ?? 0)) * 10).round() / 10;
-    var differenceColor = Colors.lightBlue[400];
-    if (weightDifference.isNegative) differenceColor = Colors.green[300];
-    if (weightDifference > 0) differenceColor = Colors.red[300];
+    final dayDifference = ((weightEntry.weight - (previousEntry?.weight ?? 0)) * 10).round() / 10;
+    var dayDifferenceColor = getWeightDifference(dayDifference);
+
+    final weekDifference = ((weightEntry.weight - (lastWeekEntry?.weight ?? 0)) * 10).round() / 10;
+    var weekDifferenceColor = getWeightDifference(weekDifference);
 
     return Padding(
       padding: const EdgeInsets.all(16.0),
@@ -73,10 +86,19 @@ class WeightEntryListItem extends StatelessWidget {
               children: [
                 previousEntry != null
                     ? Text(
-                        weightDifference.toString(),
+                        'Day: $dayDifference',
                         style: TextStyle(
                           fontSize: 21,
-                          color: differenceColor,
+                          color: dayDifferenceColor,
+                        ),
+                      )
+                    : Text('N/A', style: TextStyle(color: Colors.grey[400])),
+                lastWeekEntry != null
+                    ? Text(
+                        'Week: $weekDifference',
+                        style: TextStyle(
+                          fontSize: 21,
+                          color: weekDifferenceColor,
                         ),
                       )
                     : Text('N/A', style: TextStyle(color: Colors.grey[400])),

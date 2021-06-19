@@ -1,28 +1,32 @@
 import 'package:uuid/uuid.dart';
+import 'dart:convert';
 
 class WeightEntry {
-  late String id;
-  late DateTime date;
-  late double weight;
-  String? comment;
-  late bool cheatDay;
+  late final String id;
+  final DateTime date;
+  final double weight;
+  final String? comment;
+  final bool cheatDay;
 
   WeightEntry({
+    String? id,
     required this.date,
     required this.weight,
     this.comment,
     this.cheatDay = false,
   }) {
-    id = Uuid().v1();
+    this.id = id ?? Uuid().v1();
   }
 
   WeightEntry copyWith({
+    String? id,
     DateTime? date,
     double? weight,
     String? comment,
     bool? cheatDay,
   }) {
-    return new WeightEntry(
+    return WeightEntry(
+      id: id ?? this.id,
       date: date ?? this.date,
       weight: weight ?? this.weight,
       comment: comment ?? this.comment,
@@ -30,23 +34,48 @@ class WeightEntry {
     );
   }
 
-  WeightEntry.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    date = DateTime.parse(json['date']);
-    weight = json['weight'];
-    comment = json['comment'];
-    cheatDay = json['cheatDay'];
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'date': date.toIso8601String(),
+      'weight': weight,
+      'comment': comment,
+      'cheatDay': cheatDay,
+    };
   }
 
-  Map<String, dynamic> toJson() {
-    final data = <String, dynamic>{};
+  factory WeightEntry.fromMap(Map<String, dynamic> map) {
+    return WeightEntry(
+      id: map['id'],
+      date: DateTime.parse(map['date']),
+      weight: map['weight'],
+      comment: map['comment'],
+      cheatDay: map['cheatDay'],
+    );
+  }
 
-    data['id'] = id;
-    data['date'] = date.toIso8601String();
-    data['weight'] = weight;
-    data['comment'] = comment;
-    data['cheatDay'] = cheatDay;
+  String toJson() => json.encode(toMap());
 
-    return data;
+  factory WeightEntry.fromJson(String source) => WeightEntry.fromMap(json.decode(source));
+
+  @override
+  String toString() {
+    return 'WeightEntry(id: $id, date: $date, weight: $weight, comment: $comment, cheatDay: $cheatDay)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is WeightEntry && other.weight == weight && other.cheatDay == cheatDay && sameDateAs(other.date);
+  }
+
+  bool sameDateAs(DateTime date) {
+    return this.date.year == date.year && this.date.month == date.month && this.date.day == date.day;
+  }
+
+  @override
+  int get hashCode {
+    return id.hashCode ^ date.hashCode ^ weight.hashCode ^ comment.hashCode ^ cheatDay.hashCode;
   }
 }
