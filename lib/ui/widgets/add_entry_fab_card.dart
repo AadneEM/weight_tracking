@@ -1,8 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:weight_tracking/controllers/state_controller.dart';
 import 'package:weight_tracking/models/weight_entry.dart';
 
@@ -184,11 +183,21 @@ class _AddEntryFabCardState extends State<AddEntryFabCard> {
         borderRadius: BorderRadius.all(Radius.circular(_cardIsOpen ? 0.0 : 50.0)),
       ),
       child: AnimatedSwitcher(
-        duration: Duration(milliseconds: 200),
-        transitionBuilder: (child, animation) => FadeTransition(
-          opacity: animation,
-          child: child,
-        ),
+        duration: Duration(milliseconds: 250),
+        transitionBuilder: (child, animation) {
+          switch (child.runtimeType) {
+            case Container:
+              return SizeTransition(
+                sizeFactor: animation,
+                child: child,
+              );
+            default:
+              return FadeTransition(
+                opacity: animation,
+                child: child,
+              );
+          }
+        },
         child: !_cardIsOpen ? _renderFab() : _renderUpsertEntryCard(),
       ),
     );
