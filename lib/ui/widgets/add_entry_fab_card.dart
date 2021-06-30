@@ -119,7 +119,6 @@ class _AddEntryFabCardState extends State<AddEntryFabCard> {
           ),
         ),
         onSelectedItemChanged: (index) {
-          print(index);
           setState(() {
             _selectedWeight = index / 10;
           });
