@@ -49,5 +49,17 @@ class StateController extends GetxController {
     super.update();
   }
 
+  void toggleCheatDay(WeightEntry entry) {
+    final index = entries.indexOf(entry);
+    entry.cheatDay = !entry.cheatDay;
+
+    entries[index] = entry;
+
+    final box = GetStorage();
+    box.write(kWeightEntriesListKey, entries);
+
+    super.update();
+  }
+
   WeightEntry? get latestEntry => entries.isNotEmpty ? entries.first : null;
 }

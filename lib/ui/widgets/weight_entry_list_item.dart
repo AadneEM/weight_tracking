@@ -38,71 +38,81 @@ class WeightEntryListItem extends StatelessWidget {
     final weekDifference = ((weightEntry.weight - (lastWeekEntry?.weight ?? 0)) * 10).round() / 10;
     var weekDifferenceColor = getWeightDifference(weekDifference);
 
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Expanded(
-            flex: 1,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  weightEntry.displayableDate,
-                  style: TextStyle(fontWeight: FontWeight.w300),
-                ),
-                Text(weekDays[weightEntry.date.weekday - 1]),
-              ],
-            ),
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        border: Border(
+          left: BorderSide(
+            color: weightEntry.cheatDay ? Colors.orangeAccent : Colors.transparent,
+            width: 8.0,
           ),
-          Expanded(
-            flex: 2,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Text(
-                  weightEntry.weight.toString(),
-                  style: TextStyle(
-                    fontSize: 32,
-                    fontWeight: FontWeight.w300,
+        ),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Expanded(
+              flex: 1,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    weightEntry.displayableDate,
+                    style: TextStyle(fontWeight: FontWeight.w300),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 2, bottom: 5),
-                  child: Text('kg'),
-                ),
-              ],
+                  Text(weekDays[weightEntry.date.weekday - 1]),
+                ],
+              ),
             ),
-          ),
-          Expanded(
-            flex: 1,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                previousEntry != null
-                    ? Text(
-                        'Day: $dayDifference',
-                        style: TextStyle(
-                          fontSize: 21,
-                          color: dayDifferenceColor,
-                        ),
-                      )
-                    : Text('N/A', style: TextStyle(color: Colors.grey[400])),
-                lastWeekEntry != null
-                    ? Text(
-                        'Week: $weekDifference',
-                        style: TextStyle(
-                          fontSize: 21,
-                          color: weekDifferenceColor,
-                        ),
-                      )
-                    : Text('N/A', style: TextStyle(color: Colors.grey[400])),
-              ],
+            Expanded(
+              flex: 2,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Text(
+                    weightEntry.weight.toString(),
+                    style: TextStyle(
+                      fontSize: 32,
+                      fontWeight: FontWeight.w300,
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 2, bottom: 5),
+                    child: Text('kg'),
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+            Expanded(
+              flex: 1,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  previousEntry != null
+                      ? Text(
+                          'Day: $dayDifference',
+                          style: TextStyle(
+                            fontSize: 21,
+                            color: dayDifferenceColor,
+                          ),
+                        )
+                      : Text('N/A', style: TextStyle(color: Colors.grey[400])),
+                  lastWeekEntry != null
+                      ? Text(
+                          'Week: $weekDifference',
+                          style: TextStyle(
+                            fontSize: 21,
+                            color: weekDifferenceColor,
+                          ),
+                        )
+                      : Text('N/A', style: TextStyle(color: Colors.grey[400])),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

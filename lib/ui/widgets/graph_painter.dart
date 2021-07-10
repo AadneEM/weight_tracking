@@ -16,9 +16,6 @@ class GraphPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final widthPerEntry = (size.width - _verticalLabelWidth) / (entries.length - 1);
-    final paint = Paint()
-      ..color = Color(0xff0088ff)
-      ..strokeWidth = 2;
 
     final weightValues = entries.map((e) => e.weight).toList().cast<double>()..sort();
 
@@ -34,6 +31,10 @@ class GraphPainter extends CustomPainter {
     for (int i = 0; i < entries.length; i++) {
       final entry = entries[i];
       final nextEntry = i < entries.length - 1 ? entries[i + 1] : null;
+
+      final paint = Paint()
+        ..color = entry.cheatDay ? Colors.orange : Color(0xff0088ff)
+        ..strokeWidth = 2;
 
       final startOffset = Offset(
         _verticalLabelWidth + (widthPerEntry * i),

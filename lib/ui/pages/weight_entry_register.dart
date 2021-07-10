@@ -37,9 +37,22 @@ class WeightEntruRegister extends StatelessWidget {
                       orElse: () => null,
                     ),
               ),
-              direction: DismissDirection.endToStart,
-              onDismissed: (direction) => controller.removeEntry(data[i]),
+              direction: DismissDirection.horizontal,
+              onDismissed: (DismissDirection direction) => controller.removeEntry(data[i]),
               background: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                color: Colors.orangeAccent,
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Row(
+                    children: [
+                      Icon(Icons.warning),
+                      Text(data[i].cheatDay ? 'Remove cheat day' : 'Mark cheat day'),
+                    ],
+                  ),
+                ),
+              ),
+              secondaryBackground: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 color: Theme.of(context).errorColor,
                 child: Align(
@@ -47,22 +60,30 @@ class WeightEntruRegister extends StatelessWidget {
                   child: Icon(Icons.delete_forever),
                 ),
               ),
-              confirmDismiss: (direction) async {
-                bool? confirm = await Get.dialog<bool>(AlertDialog(
-                  title: Text('Really delete?'),
-                  actions: [
-                    TextButton(
-                      onPressed: () => Get.back(result: false),
-                      child: Text('Cancle'),
-                    ),
-                    TextButton(
-                      onPressed: () => Get.back(result: true),
-                      child: Text('Confirm'),
-                    ),
-                  ],
-                ));
+              confirmDismiss: (DismissDirection direction) async {
+                switch (direction) {
+                  case DismissDirection.endToStart:
+                    bool? confirm = await Get.dialog<bool>(AlertDialog(
+                      title: Text('Really delete?'),
+                      actions: [
+                        TextButton(
+                          onPressed: () => Get.back(result: false),
+                          child: Text('Cancle'),
+                        ),
+                        TextButton(
+                          onPressed: () => Get.back(result: true),
+                          child: Text('Confirm'),
+                        ),
+                      ],
+                    ));
 
-                return confirm ?? false;
+                    return confirm ?? false;
+                  case DismissDirection.startToEnd:
+                    controller.toggleCheatDay(data[i]);
+                    return false;
+                  default:
+                    return false;
+                }
               },
             ),
           ),

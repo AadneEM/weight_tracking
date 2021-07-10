@@ -8,7 +8,7 @@ class WeightEntry {
   final DateTime date;
   final double weight;
   final String? comment;
-  final bool cheatDay;
+  bool cheatDay;
 
   WeightEntry({
     String? id,
@@ -61,12 +61,12 @@ class WeightEntry {
   factory WeightEntry.fromJson(String source) => WeightEntry.fromMap(json.decode(source));
 
   String get displayableDate {
-    final format = DateFormat('dd-MM-yyyy');
+    final format = DateFormat('dd.MM.yyyy');
     return format.format(date);
   }
 
   String get displayableShortDate {
-    final format = DateFormat('dd-MM');
+    final format = DateFormat('dd.MM');
     return format.format(date);
   }
 
