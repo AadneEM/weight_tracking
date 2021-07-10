@@ -1,5 +1,7 @@
-import 'package:uuid/uuid.dart';
 import 'dart:convert';
+
+import 'package:intl/intl.dart';
+import 'package:uuid/uuid.dart';
 
 class WeightEntry {
   late final String id;
@@ -57,6 +59,16 @@ class WeightEntry {
   String toJson() => json.encode(toMap());
 
   factory WeightEntry.fromJson(String source) => WeightEntry.fromMap(json.decode(source));
+
+  String get displayableDate {
+    final format = DateFormat('dd-MM-yyyy');
+    return format.format(date);
+  }
+
+  String get displayableShortDate {
+    final format = DateFormat('dd-MM');
+    return format.format(date);
+  }
 
   @override
   String toString() {

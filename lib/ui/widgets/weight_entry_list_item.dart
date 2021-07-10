@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 import '../../models/weight_entry.dart';
 
@@ -33,8 +32,6 @@ class WeightEntryListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final format = DateFormat('yyyy-MM-dd');
-
     final dayDifference = ((weightEntry.weight - (previousEntry?.weight ?? 0)) * 10).round() / 10;
     var dayDifferenceColor = getWeightDifference(dayDifference);
 
@@ -52,7 +49,7 @@ class WeightEntryListItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  format.format(weightEntry.date),
+                  weightEntry.displayableDate,
                   style: TextStyle(fontWeight: FontWeight.w300),
                 ),
                 Text(weekDays[weightEntry.date.weekday - 1]),
