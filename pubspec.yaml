@@ -11,14 +11,21 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
-dev_dependencies:
-  flutter_test:
-    sdk: flutter
   get: ^4.1.4
   get_storage: ^2.0.2
   intl: ^0.17.0
   uuid: ^3.0.4
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_launcher_icons: ^0.9.0
+
+flutter_icons:
+  android: "ic_launcher"
+  ios: true
+  image_path: "lib/assets/images/appIcon.png"
+  remove_alpha_ios: true
 
 flutter:
   uses-material-design: true

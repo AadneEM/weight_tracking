@@ -2,7 +2,8 @@
     package="com.example.weight_tracking">
    <application
         android:label="weight_tracking"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/ic_launcher"
+        android:roundIcon="@mipmap/ic_launcher_circle">
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
