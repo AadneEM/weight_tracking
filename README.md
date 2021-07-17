@@ -1,4 +1,4 @@
-# Weight tracking
+# Weight Tracker
 
 A simple flutter app for tracking weight over time
 

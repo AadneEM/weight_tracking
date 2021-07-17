@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
     final stateController = Get.find<StateController>();
     return Obx(() {
       return GetMaterialApp(
-        title: 'Weight tracking',
+        title: 'Weight Tracker',
         theme: stateController.darkMode ? darkTheme : lightTheme,
         home: HomePage(),
       );

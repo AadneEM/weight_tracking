@@ -1,4 +1,4 @@
-package com.example.weight_tracking
+package no.mollux.weight_tracking
 
 import io.flutter.embedding.android.FlutterActivity
 
