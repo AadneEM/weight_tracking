@@ -10,6 +10,7 @@ import '../constants.dart';
 class StateController extends GetxController {
   final entries = RxList<WeightEntry>([]);
   final selectedTab = 0.obs;
+  final RxBool _darkMode = false.obs;
 
   StateController() {
     final box = GetStorage();
@@ -28,6 +29,8 @@ class StateController extends GetxController {
         [])
       ..sort((a, b) => b.date.compareTo(a.date));
     entries.value = storedEntries;
+
+    _darkMode.value = box.read(kDarkModeKey) ?? false;
   }
 
   void addEntry(WeightEntry newEntry) {
@@ -62,4 +65,12 @@ class StateController extends GetxController {
   }
 
   WeightEntry? get latestEntry => entries.isNotEmpty ? entries.first : null;
+
+  bool get darkMode => _darkMode.value;
+  set darkMode(mode) {
+    _darkMode.value = mode;
+
+    final box = GetStorage();
+    box.write(kDarkModeKey, mode);
+  }
 }

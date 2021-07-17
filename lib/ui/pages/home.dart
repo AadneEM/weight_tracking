@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:weight_tracking/ui/widgets/add_entry_fab_card.dart';
+import 'package:weight_tracking/ui/widgets/drawer.dart';
 
 import 'statistics.dart';
 import 'weight_entry_register.dart';
@@ -33,6 +34,7 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: Text('Weight tracker'),
       ),
+      drawer: CustomDrawer(),
       body: getCurrentTab(),
       floatingActionButton: AddEntryFabCard(),
       bottomNavigationBar: BottomNavigationBar(
