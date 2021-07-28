@@ -38,6 +38,7 @@ class _HomePageState extends State<HomePage> {
       body: getCurrentTab(),
       floatingActionButton: AddEntryFabCard(),
       bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Theme.of(context).cardColor,
         currentIndex: _selectedIndex,
         onTap: (int index) {
           setState(() {

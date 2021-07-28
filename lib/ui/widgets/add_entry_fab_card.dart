@@ -125,9 +125,7 @@ class _AddEntryFabCardState extends State<AddEntryFabCard> {
         itemBuilder: (context, index) {
           return Text(
             '${index / 10}',
-            style: TextStyle(
-              fontSize: 64,
-            ),
+            style: Theme.of(context).textTheme.headline2
           );
         },
       ),
@@ -178,7 +176,7 @@ class _AddEntryFabCardState extends State<AddEntryFabCard> {
       constraints: BoxConstraints(minWidth: w, maxWidth: w, minHeight: h, maxHeight: h),
       duration: Duration(milliseconds: 300),
       decoration: BoxDecoration(
-        color: _cardIsOpen ? Colors.blueGrey[50] : Colors.blue,
+        color: _cardIsOpen ? Theme.of(context).cardColor : Theme.of(context).accentColor,
         boxShadow: kElevationToShadow[1],
         borderRadius: BorderRadius.all(Radius.circular(_cardIsOpen ? 0.0 : 50.0)),
       ),
