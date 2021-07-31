@@ -38,7 +38,6 @@ class CustomTab extends StatelessWidget {
               builder: (context, child) {
                 final index = tab.index;
                 final offset = controller.animation?.value ?? 0;
-                print(offset);
 
                 final double opacity;
                 if (offset >= index && offset < (index + 1)) {

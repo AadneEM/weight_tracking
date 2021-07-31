@@ -4,8 +4,9 @@ import 'package:weight_tracking/models/weight_entry.dart';
 
 class GraphPainter extends CustomPainter {
   final List<WeightEntry> entries;
+  final BuildContext context;
 
-  GraphPainter({required this.entries});
+  GraphPainter({required this.entries, required this.context});
 
   final _verticalLabelWidth = 0;
   final _horizontalLabelHeight = 15;
@@ -54,7 +55,7 @@ class GraphPainter extends CustomPainter {
         );
       }
 
-      if (i % horizontalLabelSpacing.toInt() == 2) {
+      if (entries.length < _horizontalLabels || i % horizontalLabelSpacing.toInt() == 2) {
         paintHorizontalLabel(canvas, size, entry, startOffset);
       }
     }
@@ -91,12 +92,11 @@ class GraphPainter extends CustomPainter {
       labelIndicatorPaint,
     );
 
+    final textStyle = Theme.of(context).textTheme.caption;
+
     final textSpan = TextSpan(
       text: entry.displayableShortDate,
-      style: TextStyle(
-        color: Colors.black,
-        fontSize: 16,
-      ),
+      style: textStyle,
     );
 
     final textPainter = TextPainter(
@@ -112,7 +112,7 @@ class GraphPainter extends CustomPainter {
       ..paint(
         canvas,
         Offset(
-          labelOffset.dx - 20,
+          labelOffset.dx - 15,
           labelOffset.dy + indicatorTextOffset,
         ),
       );

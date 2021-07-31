@@ -15,7 +15,10 @@ class StatisticsPage extends StatelessWidget {
           height: 400,
           padding: EdgeInsets.all(16),
           child: CustomPaint(
-            painter: GraphPainter(entries: controller.entries.reversed.toList()),
+            painter: GraphPainter(
+              entries: controller.entries.reversed.toList(),
+              context: context,
+            ),
           ),
         ),
       ],
