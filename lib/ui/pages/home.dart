@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:weight_tracking/ui/pages/settings.dart';
 import 'package:weight_tracking/ui/widgets/add_entry_fab_card.dart';
 import 'package:weight_tracking/ui/widgets/custom_tab.dart';
-import 'package:weight_tracking/ui/widgets/drawer.dart';
 
 import 'statistics.dart';
 import 'weight_entry_register.dart';
@@ -24,7 +24,6 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        drawer: CustomDrawer(),
         body: Column(
           children: [
             Container(
@@ -50,9 +49,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                     setState(() {});
                   }),
                   StatisticsPage(),
-                  Center(
-                    child: Text('Settings coming soon'),
-                  ),
+                  SettingsPage(),
                 ],
               ),
             ),

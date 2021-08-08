@@ -64,6 +64,13 @@ class StateController extends GetxController {
     super.update();
   }
 
+  void wipeData() {
+    final box = GetStorage();
+    box.remove(kWeightEntriesListKey);
+
+    super.update();
+  }
+
   WeightEntry? get latestEntry => entries.isNotEmpty ? entries.first : null;
 
   bool get darkMode => _darkMode.value;

@@ -125,7 +125,7 @@ class _AddEntryFabCardState extends State<AddEntryFabCard> {
         itemBuilder: (context, index) {
           return Text(
             '${index / 10}',
-            style: Theme.of(context).textTheme.headline2
+            style: Theme.of(context).textTheme.headline2,
           );
         },
       ),
