@@ -84,8 +84,8 @@ class _AddEntryFabCardState extends State<AddEntryFabCard> {
           DateTime? date = await showDatePicker(
             context: context,
             initialDate: _selectedDate,
-            firstDate: DateTime(1995),
-            lastDate: DateTime(2022),
+            firstDate: DateTime.now().subtract(const Duration(days: 60)),
+            lastDate: DateTime.now().add(const Duration(days: 10)),
           );
           if (date != null) {
             setState(() {
